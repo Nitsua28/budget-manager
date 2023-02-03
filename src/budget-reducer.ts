@@ -52,6 +52,7 @@ export function budgetReducer(state: BudgetManagerState, action: BudgetAction ):
             return newState;
         }
         case "CREATE_EXPENSE": {
+            if ((newState.nameInput && newState.costInput) !== null){
             let newExpense: Expense = {
                 id: Math.random(),
                 name: newState.nameInput,
@@ -61,13 +62,13 @@ export function budgetReducer(state: BudgetManagerState, action: BudgetAction ):
 
             }
             newState.unpaidExpenses.push(newExpense)
-            
+        }
             return newState;
         }
         case "CHECK_PAID": {
             let arr = newState.unpaidExpenses;
-            newState.unpaidExpenses = arr.filter(expenses => expenses.id != action.payload)
-            let expense = arr.filter(expenses => expenses.id != action.payload)[0]
+            newState.unpaidExpenses = arr.filter(expenses => expenses.id !== action.payload)
+            let expense = arr.filter(expenses => expenses.id !== action.payload)[0]
             expense.isPaid = true;
             newState.paidExpenses.push(expense)
             
@@ -76,8 +77,8 @@ export function budgetReducer(state: BudgetManagerState, action: BudgetAction ):
 
         case "DELETE_EXPENSE": {
             (action.isPaid) ? 
-            newState.paidExpenses = newState.paidExpenses.filter(expenses => expenses.id != action.payload):
-            newState.unpaidExpenses = newState.unpaidExpenses.filter(expenses => expenses.id != action.payload)
+            newState.paidExpenses = newState.paidExpenses.filter(expenses => expenses.id !== action.payload):
+            newState.unpaidExpenses = newState.unpaidExpenses.filter(expenses => expenses.id !== action.payload)
             return newState;
         }
 
