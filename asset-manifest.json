@@ -1,10 +1,13 @@
 {
   "files": {
-    "main.js": "/budget-manager/static/js/main.5ee24f7a.js",
+    "main.css": "/budget-manager/static/css/main.429f50e1.css",
+    "main.js": "/budget-manager/static/js/main.6024b57d.js",
     "index.html": "/budget-manager/index.html",
-    "main.5ee24f7a.js.map": "/budget-manager/static/js/main.5ee24f7a.js.map"
+    "main.429f50e1.css.map": "/budget-manager/static/css/main.429f50e1.css.map",
+    "main.6024b57d.js.map": "/budget-manager/static/js/main.6024b57d.js.map"
   },
   "entrypoints": [
-    "static/js/main.5ee24f7a.js"
+    "static/css/main.429f50e1.css",
+    "static/js/main.6024b57d.js"
   ]
 }
