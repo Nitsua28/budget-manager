@@ -45,7 +45,7 @@ function App() {
           <label>COST</label>
           <input onChange={e => (dispatch({type:"INPUT_COST", payload:parseInt(e.target.value)}))}></input>
           <label>ESSENTIAL</label>
-          <input id="eCheck"type="checkbox" onChange={e => (dispatch({type:"INPUT_ESSENTIAL", payload: true}))}></input>
+          <input id="eCheck"type="checkbox" onChange={e => {(BudgetManagerState.isEssentialInput) ? (dispatch({type:"INPUT_ESSENTIAL", payload: false})) : (dispatch({type:"INPUT_ESSENTIAL", payload: true}))}}></input>
           <button onClick={e =>dispatch({type:"CREATE_EXPENSE"})}>CREATE EXPENSE</button>
           
         </div>
