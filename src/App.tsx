@@ -1,6 +1,8 @@
-import React, {useReducer} from 'react';
+import React, {useReducer, useEffect} from 'react';
 import { BudgetManagerState, budgetReducer, Expense } from './budget-reducer';
-
+import { UnpaidExpensesList } from './unpaidExpensesList';
+import { PaidExpensesList } from './paidExpensesList';
+import "./styles.css"
 // export type Expense ={
 //   id: number
 //   name: string 
@@ -8,7 +10,7 @@ import { BudgetManagerState, budgetReducer, Expense } from './budget-reducer';
 //   isEssential: boolean
 //   isPaid: boolean
 // }
-const initalState: BudgetManagerState ={
+const initialState: BudgetManagerState ={
   nameInput: "",
   costInput: 0,
   isEssentialInput: false,
@@ -21,25 +23,43 @@ const initalState: BudgetManagerState ={
 }
 
 function App() {
-  const [BudgetManagerState, dispatch] = useReducer(budgetReducer, initalState );
-  const unpaidExpenses = BudgetManagerState.unpaidExpenses.map((i) =>(<li>i.name</li>))
-  const paidExpenses = BudgetManagerState.paidExpenses.map((i) =>(<li>i.name</li>))
+  const [BudgetManagerState, dispatch] = useReducer(budgetReducer, initialState );
+
+  useEffect(() => {
+    dispatch({type:"CALCULATE"})
+  }, [BudgetManagerState.unpaidExpenses]);
+
+  
   return (
     <>
-      <label>NAME</label>
-      <input onChange={e => (dispatch({type:"INPUT_NAME", payload:e.target.value}))}></input>
-      <label>COST</label>
-      <input onChange={e => (dispatch({type:"INPUT_COST", payload:parseInt(e.target.value)}))}></input>
-      <label>ESSENTIAL</label>
-      <input id="eCheck"type="checkbox" onChange={e => (dispatch({type:"INPUT_ESSENTIAL", payload: true}))}></input>
-      <button onClick={e =>dispatch({type:"CREATE_EXPENSE"})}>CREATE EXPENSE</button>
-      <div>
-        <ul>
-          {unpaidExpenses}
-        </ul>
-      </div>
-      <div>
-          {paidExpenses}
+      
+
+      <div className="container">
+        <div className="budget-input-container">
+          <label>BUDGET</label>
+          <input onChange={e => (dispatch({type:"INPUT_BUDGET", payload:parseInt(e.target.value)}))}></input>
+        </div>
+        <div className="expense-input-container">
+          <label>NAME</label>
+          <input onChange={e => (dispatch({type:"INPUT_NAME", payload:e.target.value}))}></input>
+          <label>COST</label>
+          <input onChange={e => (dispatch({type:"INPUT_COST", payload:parseInt(e.target.value)}))}></input>
+          <label>ESSENTIAL</label>
+          <input id="eCheck"type="checkbox" onChange={e => (dispatch({type:"INPUT_ESSENTIAL", payload: true}))}></input>
+          <button onClick={e =>dispatch({type:"CREATE_EXPENSE"})}>CREATE EXPENSE</button>
+          
+        </div>
+        <div className="totalcost-container">
+          <h1>RESULT: {BudgetManagerState.result}</h1>
+        </div>
+        <div className="expense-output-container">
+          <div>
+            <UnpaidExpensesList list= {BudgetManagerState.unpaidExpenses} dispatch={dispatch}/>
+          </div>
+          <div>
+            <PaidExpensesList list= {BudgetManagerState.paidExpenses} dispatch={dispatch}/>
+          </div>
+        </div>
       </div>
     </>
     

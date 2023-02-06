@@ -26,7 +26,7 @@ type CreateExpenseAction = {type:"CREATE_EXPENSE"};
 type CheckPaidAction = {type:"CHECK_PAID", payload: number};
 type DeleteExpenseAction = {type:"DELETE_EXPENSE", payload: number, isPaid: boolean};
 type CalculateAction = {type:"CALCULATE"};
-type BudgetAction = InputBudgetAction | InputNameAction |
+export type BudgetAction = InputBudgetAction | InputNameAction |
  InputCostAction | InputEssentialAction | CreateExpenseAction | CheckPaidAction |
  DeleteExpenseAction | CalculateAction
 
@@ -53,22 +53,23 @@ export function budgetReducer(state: BudgetManagerState, action: BudgetAction ):
         }
         case "CREATE_EXPENSE": {
             if ((newState.nameInput && newState.costInput) !== null){
-            let newExpense: Expense = {
-                id: Math.random(),
-                name: newState.nameInput,
-                cost: newState.costInput,
-                isEssential: newState.isEssentialInput,
-                isPaid: false
+                let newExpense: Expense = {
+                    id: Math.random(),
+                    name: newState.nameInput,
+                    cost: newState.costInput,
+                    isEssential: newState.isEssentialInput,
+                    isPaid: false
 
-            }
-            newState.unpaidExpenses.push(newExpense)
+                }
+                
+                newState.unpaidExpenses.push(newExpense)
         }
             return newState;
         }
         case "CHECK_PAID": {
             let arr = newState.unpaidExpenses;
             newState.unpaidExpenses = arr.filter(expenses => expenses.id !== action.payload)
-            let expense = arr.filter(expenses => expenses.id !== action.payload)[0]
+            let expense = arr.filter(expenses => expenses.id === action.payload)[0]
             expense.isPaid = true;
             newState.paidExpenses.push(expense)
             
